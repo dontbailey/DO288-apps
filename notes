@@ -1,0 +1,42 @@
+github.com:
+    dontbailey@gmail.com
+quay.io
+    don_bailey_ibm
+
+lab-configure: creates /usr/local/etc/ocp4.config
+
+commands:
+oc new-app --as-deployment-config
+
+    tries to identify how/what to deploy create by checking for file types
+    if unable to, these options can be used to help the app creation
+
+    While the oc new-app command aims to be a convenient way to deliver 
+        applications, developers need to be aware that the command will 
+        try to "guess" the source language of the given Git repository.
+
+    --as-deployment-config -> create DeploymentConfig resources instead of a Deployment
+    -i --image-stream -> provide the image stream to be used as the S2I builder image for an S2I build
+    --strategy -> docker or pipeline or source
+    --code -> provides the url to a git repository to be used as input to S2I build
+    --docker-image -> provides the url to a container image to be deployed
+    --name <application name>
+
+    examples:
+        oc new-app --as-deployment-config http://gitserver.example.com/ mygitrepo
+        oc new-app --as-deployment-config -i php http:// gitserver.example.com/mygitrepo
+        oc new-app --as-deployment-config -i php:7.0 http:// gitserver.example.com/mygitrepo
+        oc new-app --as-deployment-config -i myis http://gitserver.example.com/mygitrepo
+
+        to see what will be created for review:
+        oc new-app --as-deployment-config -o json registry.example.com/mycontainerimage
+                                          -o yaml (works too)
+
+oc import-image
+
+    oc import-image myis --confirm --from registry.acme.example.com:5000/acme/awesome --insecure  (using self signed certificates)
+
+
+dockerfile:
+
+
